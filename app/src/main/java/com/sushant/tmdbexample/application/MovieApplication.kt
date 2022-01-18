@@ -6,7 +6,4 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 open class MovieApplication : Application(){
 
-    override fun onCreate() {
-        super.onCreate()
-    }
 }
