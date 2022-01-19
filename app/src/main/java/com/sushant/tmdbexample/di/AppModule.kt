@@ -1,7 +1,9 @@
 package com.sushant.tmdbexample.di
 
 import android.content.Context
+import androidx.room.Room
 import com.sushant.tmdbexample.application.MovieApplication
+import com.sushant.tmdbexample.database.MovieDB
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,4 +19,17 @@ class AppModule {
     fun provideApplicationContext(@ApplicationContext app: Context): MovieApplication {
         return app as MovieApplication
     }
+
+    @Singleton
+    @Provides
+    fun provideDatabase(@ApplicationContext context: Context): MovieDB {
+        return Room.databaseBuilder(
+            context.applicationContext,
+            MovieDB::class.java,
+            "movie_database"
+        )
+
+            .build()
+    }
+
 }

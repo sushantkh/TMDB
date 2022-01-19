@@ -7,8 +7,10 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.22447916666666667" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.22447916666666667" />
+        <entry key="app/src/main/res/layout/fragment_movie_detail.xml" value="0.3148148148148148" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.22447916666666667" />
         <entry key="app/src/main/res/layout/fragment_top_rated.xml" value="0.171875" />
+        <entry key="app/src/main/res/layout/grid_row.xml" value="0.24351851851851852" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.24427083333333333" />
       </map>
     </option>
@@ -18,5 +20,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.3148148148148148" />
+      </ProjectState>
+    </option>
   </component>
 </project>

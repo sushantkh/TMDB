@@ -1,22 +1,21 @@
 package com.sushant.tmdbexample.feature.home.toprated
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.sushant.tmdbexample.databinding.FragmentTopRatedBinding
+import com.sushant.tmdbexample.feature.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TopRatedFragment : Fragment() {
 
-    private val topRatedViewModel: TopRatedViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
 
     private var _binding: FragmentTopRatedBinding? = null
 
@@ -34,15 +33,16 @@ class TopRatedFragment : Fragment() {
         _binding = FragmentTopRatedBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-
-        topRatedViewModel.movieList.observe(viewLifecycleOwner, Observer {
+        homeViewModel.movieList.observe(viewLifecycleOwner, Observer {
             Log.e("TopRated", "result : ${it.size}")
+            homeViewModel.saveMovie(it[0])
         })
 
-        topRatedViewModel.errorMessage.observe(viewLifecycleOwner, Observer {
+        homeViewModel.errorMessage.observe(viewLifecycleOwner, Observer {
             Log.e("TopRated", "error : $it")
         })
-        topRatedViewModel.getTopRatedMovies()
+        homeViewModel.getTopRatedMovies()
+
         return root
     }
 
