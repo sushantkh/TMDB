@@ -12,5 +12,5 @@ interface MovieDAO {
     fun addMovie(movie: MovieEntity)
 
     @Query("select * from movie_entity")
-    fun getAllSavedMovies(): LiveData<List<MovieEntity>>
+    fun getAllSavedMovies(): List<MovieEntity>
 }

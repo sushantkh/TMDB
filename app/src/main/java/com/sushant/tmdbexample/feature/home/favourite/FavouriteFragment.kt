@@ -35,7 +35,7 @@ class FavouriteFragment : Fragment() {
         val root: View = binding.root
 
 
-        homeViewModel.getSavedMovies().observe(viewLifecycleOwner,{
+        homeViewModel.savedMovieList.observe(viewLifecycleOwner,{
             Log.e("Favourite", "results : ${it}")
         })
         homeViewModel.getSavedMovies()

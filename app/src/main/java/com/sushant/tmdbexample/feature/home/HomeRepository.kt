@@ -16,7 +16,7 @@ private val dao: MovieDAO) {
         dao.addMovie(movie)
     }
 
-    fun getSavedMovies(): LiveData<List<MovieEntity>> {
+    fun getSavedMovies(): List<MovieEntity> {
        return dao.getAllSavedMovies()
     }
 

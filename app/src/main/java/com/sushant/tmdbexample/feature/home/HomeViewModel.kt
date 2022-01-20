@@ -24,6 +24,7 @@ class HomeViewModel @Inject constructor(
 
     val movieList = MutableLiveData<List<Results>>()
     val errorMessage = MutableLiveData<String>()
+    val savedMovieList = MutableLiveData<List<MovieEntity>>()
     // poster path https://image.tmdb.org/t/p/original/
 
     fun getTopRatedMovies() {
@@ -39,8 +40,10 @@ class HomeViewModel @Inject constructor(
         })
     }
 
-    fun getSavedMovies(): LiveData<List<MovieEntity>> {
-        return homeRepository.getSavedMovies()
+    fun getSavedMovies() {
+        CoroutineScope(Dispatchers.IO).launch {
+            savedMovieList.value = homeRepository.getSavedMovies()
+        }
     }
 
     fun saveMovie(movieResult: Results) {
@@ -48,7 +51,7 @@ class HomeViewModel @Inject constructor(
             val movieEntity = MovieEntity().apply {
                 this.id = movieResult.id
                 this.adult = movieResult.adult
-                this.title=movieResult.title
+                this.title = movieResult.title
                 this.overview = movieResult.overview
                 this.posterPath = movieResult.posterPath
                 this.releaseDate = movieResult.releaseDate

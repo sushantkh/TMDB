@@ -23,4 +23,12 @@ class MovieEntity {
     var voteAverage: Double? = null
     @ColumnInfo(name = "voteCount")
     var voteCount: Int? = null
+
+    override fun equals(other: Any?): Boolean {
+        if (other==null||other !is MovieEntity)
+            return false
+
+        return this.id==other.id
+    }
+
 }
