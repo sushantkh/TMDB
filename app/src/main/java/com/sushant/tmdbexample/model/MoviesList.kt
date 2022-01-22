@@ -1,7 +1,6 @@
 package com.sushant.tmdbexample.model
 
 import com.google.gson.annotations.SerializedName
-import com.sushant.tmdbexample.model.Results
 
 
 data class  MoviesList (

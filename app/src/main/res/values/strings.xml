@@ -6,4 +6,9 @@
     <string name="movie_poster">Movie Poster</string>
     <string name="favourite_button">Favourite Button</string>
     <string name="title">Title</string>
+    <string name="release_date">Release date</string>
+    <string name="adult_content">Adult content</string>
+    <string name="overview">Overview</string>
+    <string name="rating">Rating</string>
+    <string name="vote_count">Vote count</string>
 </resources>

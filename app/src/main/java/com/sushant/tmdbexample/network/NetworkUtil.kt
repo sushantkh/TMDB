@@ -1,12 +1,8 @@
 package com.sushant.tmdbexample.network
 
 import android.content.Context
-import androidx.core.content.ContextCompat.getSystemService
-
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.os.Build
-import androidx.core.content.ContextCompat
 
 
 class NetworkUtil {

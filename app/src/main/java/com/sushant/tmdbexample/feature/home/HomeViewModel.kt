@@ -1,35 +1,42 @@
 package com.sushant.tmdbexample.feature.home
 
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import com.sushant.tmdbexample.application.MovieApplication
 import com.sushant.tmdbexample.database.entity.MovieEntity
-import com.sushant.tmdbexample.model.MoviesList
 import com.sushant.tmdbexample.model.Results
+import com.sushant.tmdbexample.network.MovieApiService
+import com.sushant.tmdbexample.network.MovieDataSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val movieApplication: MovieApplication,
-    private val homeRepository: HomeRepository
+    private val homeRepository: HomeRepository,
+    private val movieApiService: MovieApiService
 ) : AndroidViewModel(movieApplication) {
 
     val movieList = MutableLiveData<List<Results>>()
     val errorMessage = MutableLiveData<String>()
     val savedMovieList = MutableLiveData<List<MovieEntity>>()
-    // poster path https://image.tmdb.org/t/p/original/
 
-    fun getTopRatedMovies() {
+
+    val movies =
+        Pager(config = PagingConfig(pageSize = 10), pagingSourceFactory = {
+            MovieDataSource(movieApiService)
+        }).flow.cachedIn(viewModelScope)
+
+    /*fun getTopRatedMovies() {
         val response = homeRepository.getTopRatedMovies()
-        response.enqueue(object : Callback<MoviesList> {
+       *//* response.enqueue(object : Callback<MoviesList> {
             override fun onResponse(call: Call<MoviesList>, response: Response<MoviesList>) {
                 movieList.postValue(response.body()?.results)
             }
@@ -37,12 +44,12 @@ class HomeViewModel @Inject constructor(
             override fun onFailure(call: Call<MoviesList>, t: Throwable) {
                 errorMessage.postValue(t.message)
             }
-        })
-    }
+        })*//*
+    }*/
 
     fun getSavedMovies() {
         CoroutineScope(Dispatchers.IO).launch {
-            savedMovieList.value = homeRepository.getSavedMovies()
+            savedMovieList.postValue( homeRepository.getSavedMovies())
         }
     }
 
@@ -59,6 +66,11 @@ class HomeViewModel @Inject constructor(
                 this.voteCount = movieResult.voteCount
             }
             homeRepository.insertMovie(movieEntity)
+        }
+    }
+    fun deleteMovie(movieResult: Results) {
+        CoroutineScope(Dispatchers.IO).launch {
+            movieResult.id?.let { homeRepository.deleteMovie(it) }
         }
     }
 }
