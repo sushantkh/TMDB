@@ -19,11 +19,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import androidx.lifecycle.ViewModelProvider
+
+
+
 
 @AndroidEntryPoint
 class TopRatedFragment : Fragment(), MovieClickListener {
 
-    private val homeViewModel: HomeViewModel by viewModels()
+    private lateinit var homeViewModel: HomeViewModel
 
     private var _binding: FragmentTopRatedBinding? = null
 
@@ -57,6 +61,7 @@ class TopRatedFragment : Fragment(), MovieClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+       homeViewModel= ViewModelProvider(requireActivity())[HomeViewModel::class.java]
         initView()
         collectUiState()
     }
@@ -84,13 +89,13 @@ class TopRatedFragment : Fragment(), MovieClickListener {
     }
 
     override fun onItemClick(result: Results) {
-
+        homeViewModel.navigateToDetail(result)
     }
 
     override fun onStarButtonClick(result: Results, isSelected: Boolean) {
         if (isSelected)
             homeViewModel.saveMovie(result)
         else
-            homeViewModel.deleteMovie(result)
+            result.id?.let { homeViewModel.deleteMovie(it) }
     }
 }

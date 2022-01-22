@@ -24,32 +24,19 @@ class HomeViewModel @Inject constructor(
     private val movieApiService: MovieApiService
 ) : AndroidViewModel(movieApplication) {
 
-    val movieList = MutableLiveData<List<Results>>()
-    val errorMessage = MutableLiveData<String>()
-    val savedMovieList = MutableLiveData<List<MovieEntity>>()
 
+    val savedMovieList = MutableLiveData<List<MovieEntity>>()
+    val navigateToDetail = MutableLiveData<Results>()
+    val navigateToDetailFromSavedMovies = MutableLiveData<MovieEntity>()
 
     val movies =
         Pager(config = PagingConfig(pageSize = 10), pagingSourceFactory = {
             MovieDataSource(movieApiService)
         }).flow.cachedIn(viewModelScope)
 
-    /*fun getTopRatedMovies() {
-        val response = homeRepository.getTopRatedMovies()
-       *//* response.enqueue(object : Callback<MoviesList> {
-            override fun onResponse(call: Call<MoviesList>, response: Response<MoviesList>) {
-                movieList.postValue(response.body()?.results)
-            }
-
-            override fun onFailure(call: Call<MoviesList>, t: Throwable) {
-                errorMessage.postValue(t.message)
-            }
-        })*//*
-    }*/
-
     fun getSavedMovies() {
         CoroutineScope(Dispatchers.IO).launch {
-            savedMovieList.postValue( homeRepository.getSavedMovies())
+            savedMovieList.postValue(homeRepository.getSavedMovies())
         }
     }
 
@@ -68,9 +55,16 @@ class HomeViewModel @Inject constructor(
             homeRepository.insertMovie(movieEntity)
         }
     }
-    fun deleteMovie(movieResult: Results) {
-        CoroutineScope(Dispatchers.IO).launch {
-            movieResult.id?.let { homeRepository.deleteMovie(it) }
-        }
+
+    fun deleteMovie(id: Int) {
+        homeRepository.deleteMovie(id)
+    }
+
+    fun navigateToDetail(results: Results) {
+        navigateToDetail.postValue(results)
+    }
+
+    fun navigateToDetail(results: MovieEntity) {
+        navigateToDetailFromSavedMovies.postValue(results)
     }
 }

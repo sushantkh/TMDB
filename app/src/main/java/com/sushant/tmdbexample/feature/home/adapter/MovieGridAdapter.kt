@@ -40,8 +40,8 @@ class MovieGridAdapter(private val clickListener: MovieClickListener) :
                     clickListener.onStarButtonClick(result, true)
                 }
             }
+            rowContainer.setOnClickListener { clickListener.onItemClick(result) }
         }
-
     }
 
     class MovieDiffCallBack : DiffUtil.ItemCallback<Results>() {

@@ -3,9 +3,10 @@ package com.sushant.tmdbexample.database.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "movie_entity")
-class MovieEntity {
+class MovieEntity : Serializable {
     @PrimaryKey
     @ColumnInfo(name = "id")
     var id: Int? = null
@@ -23,6 +24,7 @@ class MovieEntity {
     var voteAverage: Double? = null
     @ColumnInfo(name = "voteCount")
     var voteCount: Int? = null
+    var isSelected: Boolean = false
 
     override fun equals(other: Any?): Boolean {
         if (other==null||other !is MovieEntity)

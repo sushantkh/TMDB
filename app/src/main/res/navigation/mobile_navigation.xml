@@ -9,12 +9,25 @@
         android:id="@+id/navigation_top"
         android:name="com.sushant.tmdbexample.feature.home.toprated.TopRatedFragment"
         android:label="@string/title_top"
-        tools:layout="@layout/fragment_top_rated" />
+        tools:layout="@layout/fragment_top_rated">
+        <action
+            android:id="@+id/action_navigation_top_to_nvaigation_detail"
+            app:destination="@id/nvaigation_detail" />
+    </fragment>
 
 
     <fragment
         android:id="@+id/navigation_favourite"
         android:name="com.sushant.tmdbexample.feature.home.favourite.FavouriteFragment"
         android:label="@string/title_favourite"
-        tools:layout="@layout/fragment_favourite" />
+        tools:layout="@layout/fragment_favourite">
+        <action
+            android:id="@+id/action_navigation_favourite_to_nvaigation_detail"
+            app:destination="@id/nvaigation_detail" />
+    </fragment>
+    <fragment
+        android:id="@+id/nvaigation_detail"
+        android:name="com.sushant.tmdbexample.feature.home.Detail.DetailFragment"
+        android:label="Detail"
+        tools:layout="@layout/fragment_movie_detail" />
 </navigation>

@@ -6,10 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.sushant.tmdbexample.database.entity.MovieEntity
 import com.sushant.tmdbexample.databinding.GridRowBinding
+import com.sushant.tmdbexample.listener.MovieClickListener
+import com.sushant.tmdbexample.listener.SavedMovieClickListener
 
 private const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w342/"
 
-class SavedMoviesAdapter : RecyclerView.Adapter<SavedMoviesAdapter.MovieHolder>() {
+class SavedMoviesAdapter(private val clickListener: SavedMovieClickListener) : RecyclerView.Adapter<SavedMoviesAdapter.MovieHolder>() {
     private var savedMovieList: ArrayList<MovieEntity> = ArrayList()
 
     inner class MovieHolder(val binding: GridRowBinding) :
@@ -23,17 +25,29 @@ class SavedMoviesAdapter : RecyclerView.Adapter<SavedMoviesAdapter.MovieHolder>(
     }
 
     override fun onBindViewHolder(holder: MovieHolder, position: Int) {
-        with(holder) {
-            with(savedMovieList[position]) {
-                binding.apply {
-                    tvGridTitle.text = title
-                    ivGridPoster.load(POSTER_BASE_URL + posterPath)
+        val result = savedMovieList[position]!!
+        holder.binding.apply {
+            ivGridPoster.load(POSTER_BASE_URL + result.posterPath)
+            tvGridTitle.text = result.title
+            ivStar.setOnClickListener {
+                if (result.isSelected) {
+                    result.isSelected = false
+                    ivStar.setImageResource(android.R.drawable.btn_star_big_off)
+                    clickListener.onStarButtonClick(result, false)
+                } else {
+                    result.isSelected = true
+                    ivStar.setImageResource(android.R.drawable.btn_star_big_on)
+                    clickListener.onStarButtonClick(result, true)
                 }
+            }
+            rowContainer.setOnClickListener {
+                clickListener.onItemClick(result)
             }
         }
     }
 
     public fun setList(movieList: List<MovieEntity>) {
+        savedMovieList.clear()
         savedMovieList.addAll(movieList)
         notifyDataSetChanged()
     }
